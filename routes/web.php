@@ -1,5 +1,5 @@
 <?php
-
+use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -10,20 +10,20 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 //顯示我們所有任務的清單
+/**
+ * Show Task Dashboard
+ */
 Route::get('/', function () {
-    $tasks = Task::orderBy('created_at', 'asc')->get();
-    //利用model Task由DB的tasks資料表取出資料
+    $tasks = \App\Task::orderBy('created_at', 'asc')->get();
     return view('tasks', [
         'tasks' => $tasks
-    ]);       //將tasks資料表取出的資料傳遞給tasks視圖
+    ]);
 });
-
-
-// 增加新的任務
+/**
+ * Add New Task
+ */
 Route::post('/task', function (Request $request) {
-    // 驗證輸入
     $validator = Validator::make($request->all(), [
         'name' => 'required|max:255',
     ]);
@@ -32,21 +32,15 @@ Route::post('/task', function (Request $request) {
             ->withInput()
             ->withErrors($validator);
     }
-    // 建立該任務...
-    $task = new Task;
+    $task = new \App\Task;
     $task->name = $request->name;
     $task->save();
     return redirect('/');
-
-    //新增任務存入DB的程式碼 (see next page)
-
 });
-
-
-// 刪除任務
-Route::delete('/task/{task}', function (Task $task) {
+/**
+ * Delete Task
+ */
+Route::delete('/task/{task}', function (\App\Task $task) {
     $task->delete();
     return redirect('/');
 });
-
-
