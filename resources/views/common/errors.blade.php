@@ -13,11 +13,4 @@
     </div>
 @endif
 
-    // 建立該任務...
-});
-/**
- * Created by PhpStorm.
- * User: Ray
- * Date: 2018/10/20
- * Time: 下午 08:59
- */
+
